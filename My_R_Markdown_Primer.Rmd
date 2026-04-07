@@ -1,0 +1,74 @@
+---
+title: "My R Markdown Primer"
+author: "Animesh Singh"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+## Introduction
+
+R Markdown is a tool that combines regular text with R code to create dynamic documents. You write your analysis and narrative together, then "knit" it into a polished HTML, PDF, or Word document. This makes research reproducible since code and output stay together in one file.
+
+## Math Expressions
+
+R Markdown supports LaTeX math. Here's an inline example: $\alpha + \beta = \gamma$
+
+And here's a displayed equation for the sample mean:
+
+$$
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i
+$$
+
+## Loading Data
+
+```{r load-data}
+library(ggplot2)
+
+customers <- read.csv("/Users/animeshsingh/Documents/r-programming-assignments-main/r-programming-assignments/data/customers-100.csv")
+head(customers, 5)
+```
+
+## Simple Analysis
+
+```{r summary}
+# Basic summary statistics
+cat("Total customers:", nrow(customers), "\n")
+cat("Number of countries:", length(unique(customers$Country)), "\n")
+
+# Top 5 countries
+country_counts <- table(customers$Country)
+top5 <- sort(country_counts, decreasing = TRUE)[1:5]
+print(top5)
+```
+
+## Visualization
+
+```{r plot, fig.width=8, fig.height=5}
+# Convert subscription date and extract year
+customers$Subscription.Date <- as.Date(customers$Subscription.Date)
+customers$Year <- format(customers$Subscription.Date, "%Y")
+
+# Plot subscriptions by year
+year_counts <- table(customers$Year)
+barplot(year_counts, 
+        main = "Customer Subscriptions by Year",
+        xlab = "Year", 
+        ylab = "Number of Customers",
+        col = "steelblue")
+```
+
+## Reflection
+
+**R Markdown vs. Plain Reports:**
+
+R Markdown is better than traditional reports because:
+
+- Code and results stay together: no copy/paste errors
+- Easy to update when data changes: just re-knit
+- Fully reproducible: anyone can verify your work
+
+The main challenge is learning the syntax, but it's worth it for the time saved and improved reproducibility.
