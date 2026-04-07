@@ -1,3 +1,0 @@
-"Sex"	"GradeAverage"
-"Female"	86.9375
-"Male"	80.25
